@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS USERS(
+    user_id            INT GENERATED ALWAYS AS IDENTITY,
+    firstname          VARCHAR(20),
+    lastname           VARCHAR(20),
+    age                INTEGER CHECK (age >= 18 and age < 100),
+    date_registered    TIMESTAMP,
+    date_last_active   TIMESTAMP,
+    email              VARCHAR(255),
+    password           VARCHAR(255),
+    PRIMARY KEY(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS USER_ITEMS(
+    id                INT GENERATED ALWAYS AS IDENTITY,
+    item_id           INT,
+    date_bought       TIMESTAMP,
+    owner_id          INT,
+    PRIMARY KEY(id),
+    CONSTRAINT fk_owner
+        FOREIGN KEY(owner_id)
+            REFERENCES USERS(user_id),
+    CONSTRAINT fk_item
+        FOREIGN KEY(item_id)
+            REFERENCES ITEMS(item_id)
+);
+
+CREATE TABLE IF NOT EXISTS ITEMS(
+     item_id           INT GENERATED ALWAYS AS IDENTITY,
+     item_name         VARCHAR(50),
+     item_price        INT,
+     item_image_url    VARCHAR(255),
+     PRIMARY KEY(item_id)
+);
